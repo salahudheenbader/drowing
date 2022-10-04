@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painting App</title>
+</head>
+<body>
+    <div class="controls">
+        <input type="color" id="color">
+        <input type="number" value="5" id="thiknas">
+    </div>
+    <canvas id="canvas" height="500" width="500"></canvas>
+
+
+
+
+
+    <style>
+        *{
+            padding: 0px;
+            margin: 0px;
+        }
+
+        #canvas{
+            border: solid 1px rgb(69, 22, 199);
+
+        }
+
+        #color{
+            padding: 0px;
+            border: none;
+            background: none;
+            width: 44px;
+            height: 44px;
+        }
+        #thiknas{
+            padding: 0px;
+        }
+    </style>
+
+
+
+
+<script>
+    const canvas =document.getElementById("canvas")
+    const ctx = canvas.getContext("2d");
+
+    ctx.fillStyle="white";
+    ctx.fillRect(0,0,500,500);
+
+    ctx.fillStyle="black";
+
+     let brush="black";
+
+     let brushSize=3;
+
+     document.getElementById("color").addEventListener("change", function(){
+        brushColor=this.value;
+     });
+
+     document.getElementById("thiknas").addEventListener("change" ,function(){
+        brushSize = this.value;
+     });
+
+     let Painting= false;
+
+     function PaintingStart(e){
+        Painting = true;
+        drow(e);
+     }
+
+     function PaintingEnd(e){
+        Painting = false;
+        ctx.beginPath();
+     }
+
+
+     function drow(e){
+        if(Painting==false)return;
+
+        let x= e.clientX;
+        let y= e.clientY - canvas.offsetTop
+
+        ctx.lineWidh =brushSize;
+        ctx.lineCap ="round";
+        ctx.lineTo(x,y);
+        ctx.strokeStyle=brushColor;
+        ctx.stroke();
+     }
+
+
+     canvas.addEventListener("mousedown",PaintingStart);
+
+     canvas.addEventListener("mouseup",PaintingEnd);
+
+
+     canvas.addEventListener("mousemove",drow);
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
